@@ -20,16 +20,16 @@ env:
 # Run some tests
 script:
   # Lint Todo App chart syntax
-  - helm lint charts/todo
+  - helm lint charts/ic
   # Validate generated K8s manifests
   - mkdir manifests
-  - helm template charts/todo --output-dir manifests
+  - helm template charts/ic --output-dir manifests
   - find manifests/ -name '*.yaml' | grep -v crd | xargs kubeval -v $KUBERNETES_VERSION
  
 # Build Todo App Chart and update Chart Index
 after_success:
   - mkdir distribution
-  - helm package charts/todo --destination distribution/
+  - helm package charts/ic --destination distribution/
   - helm repo index --url https://dsvayusense.github.io/helm-charts ./distribution/
  
 # Publish new Todo App Chart
