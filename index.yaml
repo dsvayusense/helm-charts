@@ -3,12 +3,11 @@ entries:
   ic:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2020-04-06T17:27:04.5083341+03:00"
+    created: 2020-04-13T12:54:39.156016218Z
     description: A Helm chart for Kubernetes
-    digest: f3d514c97fa015b284b27c8c96254c2cbbfc33d536f987ad3d28dd59e7d4719d
+    digest: 9df5eb2133ff358b43e422f1f4ec1c1550510decae7ecba3488b6b8cc4b99545
     name: ic
-    type: application
     urls:
     - https://dsvayusense.github.io/helm-charts/ic-0.1.0.tgz
     version: 0.1.0
-generated: "2020-04-06T17:27:04.5073756+03:00"
+generated: 2020-04-13T12:54:39.155381285Z
