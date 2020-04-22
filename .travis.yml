@@ -22,9 +22,9 @@ script:
   # Lint Todo App chart syntax
   - helm lint charts/ic
   # Validate generated K8s manifests
-  - mkdir manifests
-  - helm template charts/ic --output-dir manifests
-  - find manifests/ -name '*.yaml' | grep -v crd | xargs kubeval -v $KUBERNETES_VERSION
+  #- mkdir manifests
+  #- helm template charts/ic --output-dir manifests
+  #- find manifests/ -name '*.yaml' | grep -v crd | xargs kubeval -v $KUBERNETES_VERSION
  
 # Build Todo App Chart and update Chart Index
 after_success:
