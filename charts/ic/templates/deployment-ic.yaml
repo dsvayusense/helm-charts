@@ -1,0 +1,50 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Chart.Name }}
+    release: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+spec:
+  replicas: {{ .Values.replicas.tevaIc }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+      release: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: {{ .Chart.Name }}
+        release: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.images.ic.repository }}:{{ .Values.images.ic.tag }}
+          ports:
+            - containerPort: {{ .Values.service.ic.port }}
+          imagePullPolicy: {{ .Values.images.ic.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Chart.Name }}-secret
+            - configMapRef:
+                name: {{ .Chart.Name }}-configmap
+          resources:
+            requests:
+              memory: "{{ .Values.resources.requests.ic.memory }}"
+              cpu: "{{ .Values.resources.requests.ic.cpu }}"
+            limits:
+              memory: "{{ .Values.resources.limits.ic.memory }}"
+              cpu: "{{ .Values.resources.limits.ic.cpu }}"
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 10
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        cputype: corecpu

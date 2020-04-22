@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.apps.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.apps.name }}
+    release: {{ .Values.apps.name }}-{{ .Values.apps.version | replace "+" "_" }}
+spec:
+  replicas: {{ .Values.replicas.tevaMonitor }}
+  selector:
+    matchLabels:
+      app: {{ .Values.apps.name }}
+      release: {{ .Values.apps.name }}-{{ .Values.apps.version | replace "+" "_" }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: {{ .Values.apps.name }}
+        release: {{ .Values.apps.name }}-{{ .Values.apps.version | replace "+" "_" }}
+    spec:
+      containers:
+        - name: {{ .Values.apps.name }}
+          image: {{ .Values.images.monitor.repository }}:{{ .Values.images.monitor.tag }}
+          ports:
+            - containerPort: {{ .Values.service.monitor.port }}
+          imagePullPolicy: {{ .Values.images.monitor.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.apps.name }}-secret
+            - configMapRef:
+                name: {{ .Values.apps.name }}-configmap
+          resources:
+            requests:
+              memory: "{{ .Values.resources.requests.monitor.memory }}"
+              cpu: "{{ .Values.resources.requests.monitor.cpu }}"
+            limits:
+              memory: "{{ .Values.resources.limits.monitor.memory }}"
+              cpu: "{{ .Values.resources.limits.monitor.cpu }}"
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 10
+      dnsPolicy: ClusterFirst
+      tolerations:
+        - key: "cputype"
+          operator: "Equal"
+          value: "corecpu"
+          effect: "NoExecute"
