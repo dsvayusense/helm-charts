@@ -28,10 +28,10 @@ service:
 spring:
   monitor:
     config:
-      serverPort: '8761'
+      #serverPort: 8761
       springSecurityUsername: admin
       mailHost: smtp.gmail.com
-      mailPort: '587'
+      #mailPort: 587
       mailUsername: danielshjobs@gmail.com
       notifyMailTo: daniel@vayusense.com
       baseUrl: http://ic-service:8080/api/v1
