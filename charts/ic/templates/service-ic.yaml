@@ -6,7 +6,7 @@ metadata:
   annotations:
     cloud.google.com/neg: '{"ingress": true}'
   labels:
-    {{ .Chart.Name }}-service
+    app: {{ .Chart.Name }}-service
 spec:
   type: {{ .Values.service.ic.type }}
   ports:
