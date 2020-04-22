@@ -17,7 +17,7 @@ env:
   # Which K8s version are we going to validate against
   - KUBERNETES_VERSION="1.10.9"
  
-# Run some tests
+# Run some testst
 script:
   # Lint Todo App chart syntax
   - helm lint charts/ic
