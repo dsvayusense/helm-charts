@@ -40,7 +40,7 @@ spring:
       mailPassword: rnquofhmtdswngbp
   ic:
     config:
-      serverPort: "8080"
+      serverPort: 8080
       mongoHost: cluster0-8mm27.mongodb.net/biotec?retryWrites=true&w=majority
       mongoDatabase: biotec
       mongoUserName: danielvayu
