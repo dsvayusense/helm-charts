@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.apps.name }}
+  name: {{ .Values.apps.monitor.name }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.apps.name }}
-    release: {{ .Values.apps.name }}-{{ .Values.apps.version | replace "+" "_" }}
+    app: {{ .Values.apps.monitor.name }}
+    release: {{ .Values.apps.name }}-{{ .Values.apps.monitor.version | replace "+" "_" }}
 spec:
   replicas: {{ .Values.replicas.tevaMonitor }}
   selector:
     matchLabels:
-      app: {{ .Values.apps.name }}
-      release: {{ .Values.apps.name }}-{{ .Values.apps.version | replace "+" "_" }}
+      app: {{ .Values.apps.monitor.name }}
+      release: {{ .Values.apps.name }}-{{ .Values.apps.monitor.version | replace "+" "_" }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -22,8 +22,8 @@ spec:
       annotations:
         linkerd.io/inject: enabled
       labels:
-        app: {{ .Values.apps.name }}
-        release: {{ .Values.apps.name }}-{{ .Values.apps.version | replace "+" "_" }}
+        app: {{ .Values.apps.monitor.name }}
+        release: {{ .Values.apps.name }}-{{ .Values.apps.monitor.version | replace "+" "_" }}
     spec:
       containers:
         - name: {{ .Values.apps.name }}
@@ -33,9 +33,9 @@ spec:
           imagePullPolicy: {{ .Values.images.monitor.pullPolicy }}
           envFrom:
             - secretRef:
-                name: {{ .Values.apps.name }}-secret
+                name: {{ .Values.apps.monitor.name }}-secret
             - configMapRef:
-                name: {{ .Values.apps.name }}-configmap
+                name: {{ .Values.apps.monitor.name }}-configmap
           resources:
             requests:
               memory: "{{ .Values.resources.requests.monitor.memory }}"

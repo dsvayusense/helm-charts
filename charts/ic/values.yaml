@@ -4,8 +4,10 @@ replicas:
   tevaIc: 3
 
 apps:
-  name: tevamonitor
-  version: 0.1.0
+  name: teva
+  monitor:
+    name: tevamonitor
+    version: 0.1.0
 
 images:
   ic:
